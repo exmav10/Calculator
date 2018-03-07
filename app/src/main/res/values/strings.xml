@@ -16,8 +16,8 @@
     <string name="point">.</string>
     <string name="equal">=</string>
     <string name="plus">+</string>
-    <string name="bckspc">BCKSPC</string>
-    <string name="cla">CLA</string>
+    <string name="bckspc">bckspc</string>
+    <string name="cla">cla</string>
     <string name="power">^</string>
     <string name="root">½</string>
 </resources>
