@@ -136,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
         multiply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                operation = operation + divide.getText();
+                operation = operation + multiply.getText();
                 textView.setText(operation);
             }
         });
@@ -147,6 +147,7 @@ public class MainActivity extends AppCompatActivity {
                 textView.setText(operation);
             }
         });
+
         plus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -168,16 +169,20 @@ public class MainActivity extends AppCompatActivity {
                 textView.setText(operation);
             }
         });
+        //remove last character from operation string
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                operation = operation.substring(0,operation.length()-1);
+                textView.setText(operation);
             }
         });
+        //clear operation string
         clear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                operation = "";
+                textView.setText(operation);
             }
         });
     }
