@@ -300,6 +300,8 @@ public class MainActivity extends AppCompatActivity {
                     }
                     operation = startInt + "";
                     textView.setText(operation);
+                    operation = "";
+                    startInt = 0;
 
                 }else{
                     Toast.makeText(MainActivity.this,"Look execution",Toast.LENGTH_SHORT).show();
