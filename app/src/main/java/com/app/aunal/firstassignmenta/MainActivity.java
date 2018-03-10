@@ -190,12 +190,10 @@ public class MainActivity extends AppCompatActivity {
         root.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (operation.length() == 0){
-                    Toast.makeText(MainActivity.this, "Enter number first.", Toast.LENGTH_SHORT).show();
-                }else{
-                    operation = operation + root.getText();
-                    textView.setText(operation);
-                }
+
+                operation = operation + root.getText();
+                textView.setText(operation);
+
             }
         });
         power.setOnClickListener(new View.OnClickListener() {
@@ -214,8 +212,11 @@ public class MainActivity extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                operation = operation.substring(0,operation.length()-1);
-                textView.setText(operation);
+                if (operation.length() != 0){
+                    operation = operation.substring(0,operation.length()-1);
+                    textView.setText(operation);
+                }
+
             }
         });
         //clear operation string
@@ -241,10 +242,14 @@ public class MainActivity extends AppCompatActivity {
                 char ch = operation.charAt(i);
                 if (Character.isDigit(operation.charAt(i))){
                     number = number + ch;
-                }else if(ch == '+' || ch ==  'X' || ch == '-' || ch == '/' || ch == '.' || ch== '^' || ch=='½' ){
-                    toInt = Integer.parseInt(number);
+                }else if(ch == '+' || ch ==  'X' || ch == '-' || ch == '/' || ch == '.' || ch== '^' ){
+                    if (number != ""){
+                        toInt = Integer.parseInt(number);
+                    }
                     numbers.add(toInt);
                     number = "";
+                    operators.add(ch);
+                }else if(ch=='√'){
                     operators.add(ch);
                 }else if (ch == '='){
                     toInt = Integer.parseInt(number);
@@ -265,21 +270,37 @@ public class MainActivity extends AppCompatActivity {
                                 numbers.remove(0);
                                 break;
                             case 'X':
-                                startInt *= toInt;
+                                numbers.add(numbers.get(0) * numbers.get(1));
+                                startInt = numbers.get(numbers.size()-1);
+                                numbers.remove(0);
+                                numbers.remove(0);
                                 break;
                             case '/':
+                                if (numbers.get(1) == 0){
+                                    Toast.makeText(MainActivity.this,"Illegal",Toast.LENGTH_SHORT).show();
+                                 break;
+                                }
+                                numbers.add(numbers.get(0) / numbers.get(1));
+                                startInt = numbers.get(numbers.size()-1);
+                                numbers.remove(0);
+                                numbers.remove(0);
                                 break;
-
                             case '^':
+                                numbers.add((int) Math.pow(numbers.get(0),numbers.get(1)));
+                                startInt = numbers.get(numbers.size()-1);
+                                numbers.remove(0);
+                                numbers.remove(0);
                                 break;
-                            case '½':
+                            case '√':
+                                numbers.add((int) Math.sqrt(numbers.get(0)));
+                                startInt = numbers.get(numbers.size()-1);
+                                numbers.remove(0);
                                 break;
                         }
                     }
                     operation = startInt + "";
                     textView.setText(operation);
-                    startInt = 0;
-                    operation = "";
+
                 }else{
                     Toast.makeText(MainActivity.this,"Look execution",Toast.LENGTH_SHORT).show();
                 }
