@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -33,6 +36,9 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.power) Button power;
     private String operation = "";
     int startInt = 0;
+    int count = 0;
+    boolean isDivide = false;
+    boolean isPower = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -115,58 +121,93 @@ public class MainActivity extends AppCompatActivity {
         point.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                operation = operation + point.getText();
-                textView.setText(operation);
+                if (operation.length() == 0){
+                    Toast.makeText(MainActivity.this, "Enter number first.", Toast.LENGTH_SHORT).show();
+                }else{
+                    operation = operation + point.getText();
+                    textView.setText(operation);
+                }
             }
         });
         equal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("this is operation = " + operation);
+                if (operation.length() == 0){
+                    Toast.makeText(MainActivity.this, "Enter number first.", Toast.LENGTH_SHORT).show();
+                }else{
+                    operation = operation + equal.getText();
+                    textView.setText(operation);
+                    execute();
+                }
             }
         });
         divide.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                operation = operation + divide.getText();
-                textView.setText(operation);
+                if (operation.length() == 0){
+                    Toast.makeText(MainActivity.this, "Enter number first.", Toast.LENGTH_SHORT).show();
+                }else{
+                    operation = operation + divide.getText();
+                    textView.setText(operation);
+                }
 
             }
         });
         multiply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                operation = operation + multiply.getText();
-                textView.setText(operation);
+                if (operation.length() == 0){
+                    Toast.makeText(MainActivity.this, "Enter number first.", Toast.LENGTH_SHORT).show();
+                }else{
+                    operation = operation + multiply.getText();
+                    textView.setText(operation);
+                }
             }
         });
         substract.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                operation = operation + substract.getText();
-                textView.setText(operation);
+                if (operation.length() == 0){
+                    Toast.makeText(MainActivity.this, "Enter number first.", Toast.LENGTH_SHORT).show();
+                }else{
+                    operation = operation + substract.getText();
+                    textView.setText(operation);
+                }
             }
         });
 
         plus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                operation = operation + plus.getText();
-                textView.setText(operation);
+                if (operation.length() == 0){
+                    Toast.makeText(MainActivity.this, "Enter number first.", Toast.LENGTH_SHORT).show();
+                }else{
+                    operation = operation + plus.getText();
+                    textView.setText(operation);
+                }
             }
         });
         root.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                operation = operation + root.getText();
-                textView.setText(operation);
+                if (operation.length() == 0){
+                    Toast.makeText(MainActivity.this, "Enter number first.", Toast.LENGTH_SHORT).show();
+                }else{
+                    operation = operation + root.getText();
+                    textView.setText(operation);
+                }
             }
         });
         power.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                operation = operation + power.getText();
-                textView.setText(operation);
+                if (operation.length() == 0){
+                    Toast.makeText(MainActivity.this, "Enter number first.", Toast.LENGTH_SHORT).show();
+                }else{
+                    operation = operation + power.getText();
+                    textView.setText(operation);
+                    count++;
+                }
             }
         });
         //remove last character from operation string
@@ -186,5 +227,67 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+    private void execute(){
+        char firstChar = operation.charAt(0);
+        if (firstChar == '+' || firstChar ==  'X' || firstChar == '-' || firstChar == '/' || firstChar == '.'){
+            Toast.makeText(MainActivity.this, "Enter number first.", Toast.LENGTH_SHORT).show();
+            operation = operation.substring(0,operation.length()-1);
+        }else{
+            String number = "";
+            int toInt = 0;
+            ArrayList<Integer> numbers = new ArrayList<>();
+            ArrayList<Character> operators = new ArrayList<>();
+            for (int i=0;i<operation.length();i++){
+                char ch = operation.charAt(i);
+                if (Character.isDigit(operation.charAt(i))){
+                    number = number + ch;
+                }else if(ch == '+' || ch ==  'X' || ch == '-' || ch == '/' || ch == '.' || ch== '^' || ch=='½' ){
+                    toInt = Integer.parseInt(number);
+                    numbers.add(toInt);
+                    number = "";
+                    operators.add(ch);
+                }else if (ch == '='){
+                    toInt = Integer.parseInt(number);
+                    numbers.add(toInt);
+                    for (int k=0;k<operators.size();k++){
+                        char op = operators.get(k);
+                        switch (op) {
+                            case '+':
+                                numbers.add(numbers.get(0) + numbers.get(1));
+                                startInt = numbers.get(numbers.size()-1);
+                                numbers.remove(0);
+                                numbers.remove(0);
+                                break;
+                            case '-':
+                                numbers.add(numbers.get(0) - numbers.get(1));
+                                startInt = numbers.get(numbers.size()-1);
+                                numbers.remove(0);
+                                numbers.remove(0);
+                                break;
+                            case 'X':
+                                startInt *= toInt;
+                                break;
+                            case '/':
+                                break;
+
+                            case '^':
+                                break;
+                            case '½':
+                                break;
+                        }
+                    }
+                    operation = startInt + "";
+                    textView.setText(operation);
+                    startInt = 0;
+                    operation = "";
+                }else{
+                    Toast.makeText(MainActivity.this,"Look execution",Toast.LENGTH_SHORT).show();
+                }
+            }
+
+
+        }
+    }
+
 
 }
