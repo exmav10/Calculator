@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     int count = 0;
     boolean isDivide = false;
     boolean isPower = false;
+    boolean isFirst = true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -150,6 +151,7 @@ public class MainActivity extends AppCompatActivity {
                     operation = operation + divide.getText();
                     textView.setText(operation);
                 }
+                isFirst = false;
 
             }
         });
@@ -162,6 +164,7 @@ public class MainActivity extends AppCompatActivity {
                     operation = operation + multiply.getText();
                     textView.setText(operation);
                 }
+                isFirst = false;
             }
         });
         substract.setOnClickListener(new View.OnClickListener() {
@@ -185,6 +188,7 @@ public class MainActivity extends AppCompatActivity {
                     operation = operation + plus.getText();
                     textView.setText(operation);
                 }
+                isFirst = false;
             }
         });
         root.setOnClickListener(new View.OnClickListener() {
@@ -193,6 +197,7 @@ public class MainActivity extends AppCompatActivity {
 
                 operation = operation + root.getText();
                 textView.setText(operation);
+                isFirst = false;
 
             }
         });
@@ -206,6 +211,7 @@ public class MainActivity extends AppCompatActivity {
                     textView.setText(operation);
                     count++;
                 }
+                isFirst = false;
             }
         });
         //remove last character from operation string
@@ -264,7 +270,11 @@ public class MainActivity extends AppCompatActivity {
                                 numbers.remove(0);
                                 break;
                             case '-':
-                                numbers.add(numbers.get(0) - numbers.get(1));
+                                if (operators.size()>1){
+                                    numbers.add(numbers.get(1) - numbers.get(0));
+                                }else{
+                                    numbers.add(numbers.get(0) - numbers.get(1));
+                                }
                                 startInt = numbers.get(numbers.size()-1);
                                 numbers.remove(0);
                                 numbers.remove(0);
@@ -302,15 +312,11 @@ public class MainActivity extends AppCompatActivity {
                     textView.setText(operation);
                     operation = "";
                     startInt = 0;
-
+                    isFirst = true;
                 }else{
                     Toast.makeText(MainActivity.this,"Look execution",Toast.LENGTH_SHORT).show();
                 }
             }
-
-
         }
     }
-
-
 }
