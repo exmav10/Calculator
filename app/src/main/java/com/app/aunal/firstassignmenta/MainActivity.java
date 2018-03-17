@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.root) Button root;
     @BindView(R.id.power) Button power;
     private String operation = "";
-    int startInt = 0;
+    float startInt = 0;
     int count = 0;
     boolean isDivide = false;
     boolean isPower = false;
@@ -241,8 +241,8 @@ public class MainActivity extends AppCompatActivity {
             operation = operation.substring(0,operation.length()-1);
         }else{
             String number = "";
-            int toInt = 0;
-            ArrayList<Integer> numbers = new ArrayList<>();
+            float toInt = 0;
+            ArrayList<Float> numbers = new ArrayList<>();
             ArrayList<Character> operators = new ArrayList<>();
             for (int i=0;i<operation.length();i++){
                 char ch = operation.charAt(i);
@@ -250,7 +250,7 @@ public class MainActivity extends AppCompatActivity {
                     number = number + ch;
                 }else if(ch == '+' || ch ==  'X' || ch == '-' || ch == '/' || ch == '.' || ch== '^' ){
                     if (number != ""){
-                        toInt = Integer.parseInt(number);
+                        toInt = Float.parseFloat(number);
                     }
                     numbers.add(toInt);
                     number = "";
@@ -258,7 +258,7 @@ public class MainActivity extends AppCompatActivity {
                 }else if(ch=='√'){
                     operators.add(ch);
                 }else if (ch == '='){
-                    toInt = Integer.parseInt(number);
+                    toInt = Float.parseFloat(number);
                     numbers.add(toInt);
                     for (int k=0;k<operators.size();k++){
                         char op = operators.get(k);
@@ -296,13 +296,13 @@ public class MainActivity extends AppCompatActivity {
                                 numbers.remove(0);
                                 break;
                             case '^':
-                                numbers.add((int) Math.pow(numbers.get(0),numbers.get(1)));
+                                numbers.add((float) Math.pow(numbers.get(0),numbers.get(1)));
                                 startInt = numbers.get(numbers.size()-1);
                                 numbers.remove(0);
                                 numbers.remove(0);
                                 break;
                             case '√':
-                                numbers.add((int) Math.sqrt(numbers.get(0)));
+                                numbers.add((float) Math.sqrt(numbers.get(0)));
                                 startInt = numbers.get(numbers.size()-1);
                                 numbers.remove(0);
                                 break;
